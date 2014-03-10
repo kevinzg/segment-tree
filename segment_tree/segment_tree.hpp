@@ -13,6 +13,7 @@ protected:
     // Types
     typedef T value_type;
     typedef Container container;
+    typedef Specification specification;
     typedef typename Container::size_type size_type;
     typedef std::pair<size_type, size_type> size_type_pair;
     
@@ -62,7 +63,7 @@ public:
 
         // tree base level
         for (size_type k = 0; start+k < end; ++k)
-            tree_cont_[start+k] = S::fn(get_element(k<<1), get_element((k<<1)+1));
+            tree_cont_[start+k] = specification::fn(get_element(k<<1), get_element((k<<1)+1));
 
         for (size_type h = 1, depth = height_-2; h < height_; ++h, --depth)
         {
@@ -71,7 +72,7 @@ public:
             size_type& end = range.second;
 
             for (size_type k = start; k < end; ++k)
-                tree_cont_[k] = S::fn(tree_cont_[(k<<1)+1], tree_cont_[(k<<1)+2]);
+                tree_cont_[k] = specification::fn(tree_cont_[(k<<1)+1], tree_cont_[(k<<1)+2]);
         }
     }
     
@@ -104,7 +105,7 @@ protected:
     
     inline const value_type& get_element(size_type index)
     {
-        return index < cont_.size() ? cont_[index] : S::get_identity();
+        return index < cont_.size() ? cont_[index] : specification::get_identity();
     }
 }; // class segment_tree
 
