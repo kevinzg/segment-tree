@@ -85,6 +85,7 @@ public:
     
     const T& query(size_type start, size_type last) const
     {
+        // check start < last <= cont_.size()
         return query_recursive(0, size_type_pair(0, size_), size_type_pair(start, last));
     }
     
