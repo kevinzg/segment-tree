@@ -83,7 +83,7 @@ public:
         }
     }
     
-    const T& query(size_type start, size_type last)
+    const T& query(size_type start, size_type last) const
     {
         return query_recursive(0, size_type_pair(0, size_), size_type_pair(start, last));
     }
@@ -100,7 +100,7 @@ protected:
     value_type identity_;
 
     // Query and update methods
-    const T& query_recursive(size_type node, size_type_pair node_range, size_type_pair query_range)
+    const T& query_recursive(size_type node, size_type_pair node_range, size_type_pair query_range) const
     {
         if (node_range.first >= query_range.first && node_range.second <= query_range.second)
             if (node_range.first + 1 == node_range.second)
@@ -121,7 +121,7 @@ protected:
     }
 
     // Util functions
-    size_type_pair tree_size(size_type n)
+    size_type_pair tree_size(size_type n) const
     {
         size_type height = 0;
         size_type size = 1;
@@ -131,12 +131,12 @@ protected:
         return size_type_pair(size - 1, height);
     }
 
-    inline size_type_pair range_for_depth(size_type depth)
+    inline size_type_pair range_for_depth(size_type depth) const
     {
         return size_type_pair((1<<depth)-1, (1<<(depth+1))-1);
     }
 
-    inline const value_type& get_element(size_type index)
+    inline const value_type& get_element(size_type index) const
     {
         return index < cont_.size() ? cont_[index] : identity_;
     }
