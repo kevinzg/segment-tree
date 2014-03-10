@@ -14,6 +14,7 @@ public:
     typedef T value_type;
     typedef Container container;
     typedef Specification specification;
+    typedef typename container::const_iterator const_iterator;
 
 protected:
     typedef typename Container::size_type size_type;
@@ -97,11 +98,20 @@ public:
         update_recursive(0, size_type_pair(0, size_), index, val);
     }
 
+    inline const_iterator begin() const
+    {
+        return cont_.begin();
+    }
+
+    inline const_iterator end() const
+    {
+        return cont_.end();
+    }
 
 protected:
     // Data members    
     container cont_;
-    container tree_cont_;
+    container tree_cont_; // change to a vector of size_type so it store the position of the element instead of a copy
     size_type height_;
     size_type size_;
     value_type identity_;
@@ -182,4 +192,3 @@ protected:
 } // namespace fx
 
 #endif // FX_SEGMENT_TREE_HPP
-
