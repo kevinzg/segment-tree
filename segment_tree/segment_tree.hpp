@@ -116,10 +116,12 @@ protected:
         if (node_range.second <= query_range.first || query_range.second <= node_range.first)
             return identity_;
 
-        const T * left_val = & query_recursive((node<<1)+1, size_type_pair(node_range.first, node_range.second<<1),
+        size_type mid = mid_point(node_range.first, node_range.second);
+
+        const T * left_val = & query_recursive((node<<1)+1, size_type_pair(node_range.first, mid),
             query_range);
 
-        const T * right_val = & query_recursive((node<<1)+2, size_type_pair(node_range.second<<1, node_range.second),
+        const T * right_val = & query_recursive((node<<1)+2, size_type_pair(mid, node_range.second),
             query_range);
 
         return specification::fn(*left_val, *right_val);
@@ -136,10 +138,12 @@ protected:
             else
                 return tree_cont_[node];
 
-        const T * left_val = & update_recursive((node<<1)+1, size_type_pair(node_range.first, node_range.second<<1),
+        size_type mid = mid_point(node_range.first, node_range.second);
+
+        const T * left_val = & update_recursive((node<<1)+1, size_type_pair(node_range.first, mid),
             index, val);
 
-        const T * right_val = & update_recursive((node<<1)+2, size_type_pair(node_range.second<<1, node_range.second),
+        const T * right_val = & update_recursive((node<<1)+2, size_type_pair(mid, node_range.second),
             index, val);
 
         return specification::fn(*left_val, *right_val);
@@ -164,6 +168,12 @@ protected:
     inline const value_type& get_element(size_type index) const
     {
         return index < cont_.size() ? cont_[index] : identity_;
+    }
+
+    inline size_type mid_point(size_type a, size_type b) const
+    {
+        // check b > a
+        return a + ((b - a) >> 1);
     }
 }; // class segment_tree
 
