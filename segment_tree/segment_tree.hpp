@@ -60,8 +60,26 @@ protected:
     container cont_;
     
     // Util functions
-    size_type best_size(size_type size);
-};
+    size_type_pair tree_size(size_type n)
+    {
+        size_type height = 0;
+        size_type size = 1;
+
+        while (size < n) ++height, size <<= 1;
+        
+        return size_type_pair(size - 1, height);
+    }
+
+    inline size_type_pair range_for_depth(size_type depth)
+    {
+        return index < cont_.size() ? cont_[index] : S::get_identity();
+    }
+    
+    inline const value_type& get_element(size_type index)
+    {
+        return index < cont_.size() ? cont_[index] : S::get_identity();
+    }
+}; // class segment_tree
 
 } // namespace fx
 
