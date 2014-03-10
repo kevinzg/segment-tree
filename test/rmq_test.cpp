@@ -8,7 +8,7 @@ struct rmq_specification
 {
     static inline const T& get_identity()
     {
-        static const T IDENTITY = std::numeric_limits<T>::min();
+        static const T IDENTITY = std::numeric_limits<T>::max();
         return IDENTITY;
     }
 
