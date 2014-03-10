@@ -52,8 +52,10 @@ public:
     {
         size_type_pair tree_size_height = tree_size(cont_.size());
 
-        tree_cont_.resize(tree_size_height.first);
+        size_ = tree_size_height.first+1;
         height_ = tree_size_height.second;
+
+        tree_cont_.resize(size_-1);
 
         if (!height_) return;
 
@@ -87,6 +89,7 @@ protected:
     container cont_;
     container tree_cont_;
     size_type height_;
+    size_type size_;
 
     // Util functions
     size_type_pair tree_size(size_type n)
