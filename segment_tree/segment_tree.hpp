@@ -9,14 +9,16 @@ namespace fx {
 template <typename T, typename Specification, typename Container=std::vector<T> >
 class segment_tree
 {
-protected:
     // Types
+public:
     typedef T value_type;
     typedef Container container;
     typedef Specification specification;
+
+protected:
     typedef typename Container::size_type size_type;
     typedef std::pair<size_type, size_type> size_type_pair;
-    
+
 public:
     // Constructors
     segment_tree() :
