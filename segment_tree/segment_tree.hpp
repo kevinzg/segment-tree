@@ -2,6 +2,7 @@
 #define FX_SEGMENT_TREE_HPP
 
 #include <vector>
+#include <utility>
 
 namespace fx {
 
@@ -13,6 +14,7 @@ protected:
     typedef T value_type;
     typedef Container container;
     typedef typename Container::size_type size_type;
+    typedef std::pair<size_type, size_type> size_type_pair;
     
 public:
     // Constructors
