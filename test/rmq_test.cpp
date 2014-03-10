@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iterator>
 #include <limits>
 #include <algorithm>
 #include <cassert>
@@ -54,6 +55,8 @@ int main()
     assert(st.query(3, 6) == 4);
     st.update(4, 998);
     assert(st.query(3, 6) == 998);
+
+    std::copy(st.begin(), st.end(), std::ostream_iterator<int>(std::cout, " "));
 
     return 0;
 }
