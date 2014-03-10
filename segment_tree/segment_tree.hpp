@@ -56,9 +56,10 @@ public:
 
 protected:
     // Data members    
-    container tree_cont_;
     container cont_;
-    
+    container tree_cont_;
+    size_type height_;
+
     // Util functions
     size_type_pair tree_size(size_type n)
     {
