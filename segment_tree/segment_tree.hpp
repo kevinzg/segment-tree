@@ -79,7 +79,10 @@ public:
         }
     }
     
-    const T& query(size_type start, size_type last);
+    const T& query(size_type start, size_type last)
+    {
+        return query_recursive(0, size_type_pair(0, size_), size_type_pair(start, last));
+    }
     
     void update(size_type index, const T& val);
 
@@ -90,6 +93,27 @@ protected:
     container tree_cont_;
     size_type height_;
     size_type size_;
+
+    // Query and update methods
+    const T& query_recursive(size_type node, size_type_pair node_range, size_type_pair query_range)
+    {
+        if (node_range.first >= query_range.first && node_range.second <= query_range.second)
+            if (node_range.first + 1 == node_range.second)
+                return get_element(node_range.first);
+            else
+                return tree_cont_[node];
+
+        if (node_range.second <= query_range.first || query_range.second <= node_range.first)
+            return specification::get_identity();
+
+        const T * left_val = & query_recursive((node<<1)+1, size_type_pair(node_range.first, node_range.second<<1),
+            query_range);
+
+        const T * right_val = & query_recursive((node<<1)+2, size_type_pair(node_range.second<<1, node_range.second),
+            query_range);
+
+        return specification::fn(*left_val, *right_val);
+    }
 
     // Util functions
     size_type_pair tree_size(size_type n)
@@ -106,7 +130,7 @@ protected:
     {
         return size_type_pair((1<<depth)-1, (1<<(depth+1))-1);
     }
-    
+
     inline const value_type& get_element(size_type index)
     {
         return index < cont_.size() ? cont_[index] : specification::get_identity();
