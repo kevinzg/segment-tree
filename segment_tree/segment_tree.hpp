@@ -89,7 +89,11 @@ public:
         return query_recursive(0, size_type_pair(0, size_), size_type_pair(start, last));
     }
     
-    void update(size_type index, const T& val);
+    void update(size_type index, const value_type& val)
+    {
+        // check index < cont_.size()
+        update_recursive(0, size_type_pair(0, size_), index, val);
+    }
 
 
 protected:
@@ -117,6 +121,26 @@ protected:
 
         const T * right_val = & query_recursive((node<<1)+2, size_type_pair(node_range.second<<1, node_range.second),
             query_range);
+
+        return specification::fn(*left_val, *right_val);
+    }
+
+    const T& update_recursive(size_type node, size_type_pair node_range, size_type index, const T& val)
+    {
+        if (node_range.first + 1 == node_range.second)
+            return cont_[index] = val; // index must always be less than cont_.size()
+
+        if (index < node_range.first || node_range.second <= index)
+            if (node_range.first + 1 == node_range.second)
+                return get_element(node_range.first);
+            else
+                return tree_cont_[node];
+
+        const T * left_val = & update_recursive((node<<1)+1, size_type_pair(node_range.first, node_range.second<<1),
+            index, val);
+
+        const T * right_val = & update_recursive((node<<1)+2, size_type_pair(node_range.second<<1, node_range.second),
+            index, val);
 
         return specification::fn(*left_val, *right_val);
     }
