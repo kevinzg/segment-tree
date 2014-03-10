@@ -99,7 +99,7 @@ protected:
 
     inline size_type_pair range_for_depth(size_type depth)
     {
-        return index < cont_.size() ? cont_[index] : S::get_identity();
+        return size_type_pair((1<<depth)-1, (1<<(depth+1))-1);
     }
     
     inline const value_type& get_element(size_type index)
