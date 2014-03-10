@@ -79,7 +79,7 @@ public:
     
     void query(size_type start, size_type last);
     
-    void update(size_type index);
+    void update(size_type index, const T& val);
 
 
 protected:
