@@ -48,6 +48,32 @@ public:
     
     // Public methods
     void build()
+    {
+        size_type_pair tree_size_height = tree_size(cont_.size());
+
+        tree_cont_.resize(tree_size_height.first);
+        height_ = tree_size_height.second;
+
+        if (!height_) return;
+
+        size_type_pair range = range_for_depth(height_-1);
+        size_type& start = range.first;
+        size_type& end = range.second;
+
+        // tree base level
+        for (size_type k = 0; start+k < end; ++k)
+            tree_cont_[start+k] = S::fn(get_element(k<<1), get_element((k<<1)+1));
+
+        for (size_type h = 1, depth = height_-2; h < height_; ++h, --depth)
+        {
+            range = range_for_depth(depth);
+            size_type& start = range.first;
+            size_type& end = range.second;
+
+            for (size_type k = start; k < end; ++k)
+                tree_cont_[k] = S::fn(tree_cont_[(k<<1)+1], tree_cont_[(k<<1)+2]);
+        }
+    }
     
     void query(size_type start, size_type last);
     
