@@ -21,13 +21,15 @@ public:
     // Constructors
     segment_tree() :
         cont_(),
-        tree_cont_()
+        tree_cont_(),
+        identity_(specification::get_identity())
     {
     }
     
     segment_tree(size_type n, const value_type& val = value_type()) :
         cont_(n, val),
-        tree_cont_()
+        tree_cont_(),
+        identity_(specification::get_identity())
     {
         build();
     }
@@ -35,14 +37,16 @@ public:
     template<typename InputIterator>
     segment_tree(InputIterator first, InputIterator last) :
         cont_(first, last),
-        tree_cont_()
+        tree_cont_(),
+        identity_(specification::get_identity())
     {
         build();
     }
 
     segment_tree(const container& cont) :
         cont_(cont),
-        tree_cont_()
+        tree_cont_(),
+        identity_(specification::get_identity())
     {
         build();
     }
@@ -93,6 +97,7 @@ protected:
     container tree_cont_;
     size_type height_;
     size_type size_;
+    value_type identity_;
 
     // Query and update methods
     const T& query_recursive(size_type node, size_type_pair node_range, size_type_pair query_range)
@@ -104,7 +109,7 @@ protected:
                 return tree_cont_[node];
 
         if (node_range.second <= query_range.first || query_range.second <= node_range.first)
-            return specification::get_identity();
+            return identity_;
 
         const T * left_val = & query_recursive((node<<1)+1, size_type_pair(node_range.first, node_range.second<<1),
             query_range);
@@ -133,7 +138,7 @@ protected:
 
     inline const value_type& get_element(size_type index)
     {
-        return index < cont_.size() ? cont_[index] : specification::get_identity();
+        return index < cont_.size() ? cont_[index] : identity_;
     }
 }; // class segment_tree
 
