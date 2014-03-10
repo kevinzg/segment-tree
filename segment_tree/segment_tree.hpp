@@ -77,7 +77,7 @@ public:
         }
     }
     
-    void query(size_type start, size_type last);
+    const T& query(size_type start, size_type last);
     
     void update(size_type index, const T& val);
 
