@@ -47,7 +47,7 @@ public:
     }
     
     // Public methods
-    void built();
+    void build()
     
     void query(size_type start, size_type last);
     
