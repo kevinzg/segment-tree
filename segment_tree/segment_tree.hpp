@@ -65,6 +65,7 @@ public:
         for (size_type k = 0; start+k < end; ++k)
             tree_cont_[start+k] = specification::fn(get_element(k<<1), get_element((k<<1)+1));
 
+        // other levels
         for (size_type h = 1, depth = height_-2; h < height_; ++h, --depth)
         {
             range = range_for_depth(depth);
