@@ -129,7 +129,7 @@ protected:
 
     const T& update_recursive(size_type node, size_type_pair node_range, size_type index, const T& val)
     {
-        if (node_range.first + 1 == node_range.second)
+        if (node_range.first + 1 == node_range.second && index == node_range.first)
             return cont_[index] = val; // index must always be less than cont_.size()
 
         if (index < node_range.first || node_range.second <= index)
@@ -146,7 +146,7 @@ protected:
         const T * right_val = & update_recursive((node<<1)+2, size_type_pair(mid, node_range.second),
             index, val);
 
-        return specification::fn(*left_val, *right_val);
+        return tree_cont_[node] = specification::fn(*left_val, *right_val);
     }
 
     // Util functions
