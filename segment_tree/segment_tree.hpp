@@ -18,14 +18,33 @@ protected:
     
 public:
     // Constructors
-    segment_tree();
+    segment_tree() :
+        cont_(),
+        tree_cont_()
+    {
+    }
     
-    segment_tree(size_type n, const value_type& val = value_type());
+    segment_tree(size_type n, const value_type& val = value_type()) :
+        cont_(n, val),
+        tree_cont_()
+    {
+        build();
+    }
     
     template<typename InputIterator>
-    segment_tree(InputIterator first, InputIterator last);
-    
-    segment_tree(const Container& container);
+    segment_tree(InputIterator first, InputIterator last) :
+        cont_(first, last),
+        tree_cont_()
+    {
+        build();
+    }
+
+    segment_tree(const container& cont) :
+        cont_(cont),
+        tree_cont_()
+    {
+        build();
+    }
     
     // Public methods
     void built();
