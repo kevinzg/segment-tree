@@ -6,6 +6,9 @@
 
 namespace fx {
 
+// T is the basic data; Specification has the update function, query function,
+// identity value, and others; Container is the container for the data.
+// Should I change those functions to functors?
 template <typename T, typename Specification, typename Container=std::vector<T> >
 class segment_tree
 {
@@ -86,18 +89,27 @@ public:
         }
     }
     
+    // The return type could be different.
     const T& query(size_type start, size_type last) const
     {
         // check start < last <= cont_.size()
         return query_recursive(0, size_type_pair(0, size_), size_type_pair(start, last));
     }
     
+    // Now it only sets val to the value at index, other update functions could
+    // be applied, this update function should be specified in the specification
+    // class.
+    // Lazy propagation allows to apply this update function to a range.
     void update(size_type index, const value_type& val)
     {
         // check index < cont_.size()
         update_recursive(0, size_type_pair(0, size_), index, val);
     }
 
+    // Iterators
+    // These aren't trivial with lazy propagation.
+    // To iterate all the items all the lazy propagation changes must be
+    // applied, this can be done in O(n)
     inline const_iterator begin() const
     {
         return cont_.begin();
@@ -109,12 +121,18 @@ public:
     }
 
 protected:
-    // Data members    
-    container cont_;
-    container tree_cont_; // change to a vector of size_type so it store the position of the element instead of a copy
+    // Data members
+    // cont_ has the input data.
+    container cont_;        // Should container for cont_ and for tree_cont_ be
+                            // the same
+    // tree_cont_ has the query data of ranges
+    container tree_cont_;   // Change to a vector of size_type so it stores the
+                            // position of the element instead of a copy.
+                            // It can be any type, should be specified in the
+                            // specification class, i.e. traits
     size_type height_;
     size_type size_;
-    value_type identity_;
+    value_type identity_;   // fn(x, identity_) == x
 
     // Query and update methods
     const T& query_recursive(size_type node, size_type_pair node_range, size_type_pair query_range) const
@@ -162,6 +180,7 @@ protected:
     }
 
     // Util functions
+    // Don't know if these should be here.
     size_type_pair tree_size(size_type n) const
     {
         size_type height = 0;
